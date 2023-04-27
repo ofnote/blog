@@ -3,3 +3,4 @@ OffNote Labs is a research organization dedicated to promoting innovation withou
 
 Our team of researchers are passionate about exploring, distilling and communicating insights across a broad set of topics and the latest trends in domains of Deep Learning and Artificial Intelligence.
 
+Read our blog [articles](https://ofnote.github.io/blog) to learn more.
