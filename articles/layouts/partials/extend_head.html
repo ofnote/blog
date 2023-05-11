@@ -1,0 +1,10 @@
+{{ if or .Params.math .Site.Params.math }}
+{{ partial "math.html" . }}
+{{ end }}
+
+<style>
+body {font-family: 'Latin Modern', Georgia, Cambria, 'Times New Roman';
+    font-size:small;
+}
+
+</style>
