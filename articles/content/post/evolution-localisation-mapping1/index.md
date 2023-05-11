@@ -1,5 +1,5 @@
 ---
-title: "Evolution of Localisation and Mapping Technology"
+title: "Evolution of Localisation and Mapping Technology (I)"
 date: 2023-05-11T17:03:13+05:30
 draft: false
 author: ["Senthil Palanisamy", "Nishant Sinha"]
@@ -10,7 +10,7 @@ ShowReadingTime: true
 
 ---
 
-# Introduction
+## Introduction
 
 The problems of mapping and localisation in computer vision (or perception in general) refers to
 
@@ -24,7 +24,7 @@ For example, for a Roboticist working with a robot navigating an unknown environ
 
 This article is the first of the two-part series on this topic. You can read the second article here.
 
-# Key Concepts
+## Key Concepts
 
 We quickly recall the key background concepts used in this article.
 
@@ -41,7 +41,7 @@ We quickly recall the key background concepts used in this article.
 - References
     - Some of the great go-to resources are books like [probabilistic robotics](https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf) , [multiview geometry](http://www.r-5.org/files/books/computers/algo-list/image-processing/vision/Richard_Hartley_Andrew_Zisserman-Multiple_View_Geometry_in_Computer_Vision-EN.pdf) by Hartley and Zeisserman, [slam book](https://github.com/gaoxiang12/slambook-en/blob/master/slambook-en.pdf) by Tao Zhang, courses like [multiview geometry](https://www.youtube.com/playlist?list=PLTBdjV_4f-EJn6udZ34tht9EVIW7lbeo4) by Daniel Cremers, [robotics perception](https://www.coursera.org/learn/robotics-perception). For modern areas like nerfs, reading research papers is ultimately necessary to understand and keep up with state of the art. We provide additional references in each section of the article below.
 
-# Smoothing systems / Filters
+## Smoothing systems / Filters
     
 All measurements we make carry some level of uncertainty. Be it the images of the physical world that we see, or an estimate of robot motion through wheel odometers, the models are never perfect and our knowledge is a bit uncertain. Given that we have some level of uncertainty at some time t with some assumed / estimated uncertainty $\sigma$, how does our uncertainty increase or decrease with future measurements. Questions like these become the primary driver for modelling in smoothing systems. The most popular of these is the Kalman system. It must be noted that this kind of system can be used for both localization only (against a known map) and simultaneous localization and mapping (SLAM)
 
@@ -76,32 +76,32 @@ There are two equations that formalize the structure of a Kalman filtering syste
 $$P( \tilde{x_t} ) = \int P( x_t | x_{t-1}) P(x_{t-1}) dx_{t-1}$$ 
 The measurement function then gives you $P(z_t | \tilde{x_t})$. We can then compute $P( \tilde{x_t} | z_t )$ using bayes’ rule.
 
-## Practical insights
+### Practical insights
 
 * Its very hard to build detailed or dense maps with this structure but is very real time and can run on extreme resource constraints devices.
 * Though this is falling out of favor with the advent of optimization based SLAM frameworks, this is still a predominant method for estimating camera movement on resource constrained edge devices like a visual odometry for quadcopters (MSCKS) or visual odometry on a phone for example
 * The estimation process involves inverting an expensive co-variance matrix which is roughly $O(n^3)$, where n is the dimension of the state vector. So if we try to build detailed maps by increasing the state vector size, the computation becomes intractable.
 * A fundamental limitation of Kalman filter is the Gaussian noise assumption, which may not be a realistic modelling in many cases. Lots of variants try to address this like particle filters but have a fundamental computational bottleneck.
 
-## References
+### References
 
 *  Andrew Davison’s pioneering work on [Real-Time Simultaneous Localisation and Mapping with a Single Camera](https://www.doc.ic.ac.uk/~ajd/Publications/davison_iccv2003.pdf) was arguably the first working modern day filtering SLAM system. 
 * MSCKF - [Multi State Constraint Kalman filter](https://www-users.cse.umn.edu/~stergios/papers/ICRA07-MSCKF.pdf) is a EKF filter (Extended Kalman Filter), mostly used in drones. The state vector is the position, orientation, velocity of the system over the last K frames.
 * [Probabilistic robotics](https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf) is a must read for anyone wishing to gain a deeper understanding here. 
 
 
-# Structure from Motion (SfM) systems 
+## Structure from Motion (SfM) systems 
     
 If a camera captures the same scene from two different views, we can intuitively guess the relative poses of the two cameras from the captured images. Now let us imagine that we have 50 images of some unknown scene. Can we reconstruct the accurate 3D poses of the camera from these image observations? We discuss a formal mathematical framework, called Structure from Motion, to estimate this accurately.
 
 ![Structure From Motion](images/teaser.png)
 
-## System specifications
+### System specifications
 * inputs - sensor measurements like camera images
 * outputs - An accurate camera trajectory with a sparse map
 * run time / resource constraints - mostly runs in an offline manner. Can take several minutes to estimate trajectory for 50s of frames. Can even run for days / weeks if the number of frames are increased. 
 
-## System description
+### System description
 
 * These systems optimize for both camera trajectory and map in a globally consistent way
 * There is a cost function, for a camera based system. This is usually the bundle adjustment cost, which is just the re-projection error across multiple views.
@@ -152,13 +152,13 @@ When we obtain a new camera view that shares some point observations with anothe
 
 In case of two-camera relative movement estimation, we have elegant linear solutions for estimating these good initial guesses for non-linear optimization. Epipolar geometry is the primary tool here -- see [Key Concepts](#key-concepts). The relative movement between two camera frames can be estimated upto scale (Essential matrix estimation), using 5 matching feature matches ( 5 point algorithm), assuming the intrinsic of the camera are known. In case of unknown intrinsic, the fundamental matrix is estimated using 8 feature point matches (8 point algorithm). This starting estimate becomes the starting point for optimizing this further when we optimize everything in the full camera cluster.
 
-## Practical observations
+### Practical observations
 1. When you have images in the wild and wish to know how the cameras taking those images were oriented, this is the system of choice.
 2. Depending on the number of frames chosen, this could take a few minutes to a few days or weeks.
 3. When we say a few minutes, we are talking of small scale camera trajectory estimations like camera trajectory estimation when navigating a small indoor room with 50s of frames
 4. When we say days or weeks, we are talking about large scale camera trajectory estimations like city level navigation, or navigating Roman collosseum.
 
-## References
+### References
 1. [Colmap sfm](https://demuc.de/papers/schoenberger2016sfm.pdf) is a well-cited, popular and opensourced sfm system.
 
 In the second part of this series, we will examine other techniques for localization and mapping: Multi view stereo systems, NERFs and more.
@@ -166,7 +166,7 @@ In the second part of this series, we will examine other techniques for localiza
     
 ---
     
-# References
+## References
 
 - [https://www.researchgate.net/figure/Factor-graph-representation-of-the-Full-SLAM-problem-for-both-the-simple-example-and-the_fig3_221344652](https://www.researchgate.net/figure/Factor-graph-representation-of-the-Full-SLAM-problem-for-both-the-simple-example-and-the_fig3_221344652)
 - [https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html](https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html)
