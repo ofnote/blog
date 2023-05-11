@@ -1,4 +1,10 @@
 baseURL = 'http://ofnote.github.io/'
 languageCode = 'en-us'
 title = 'OffNote Labs Research Pages'
-theme = 'HugoTeX'
+theme = 'PaperMod' #HugoTeX
+DefaultContentLanguage = "en"
+enableInlineShortcodes = true
+footnoteReturnLinkContents = "^"
+
+
+
