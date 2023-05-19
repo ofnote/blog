@@ -22,7 +22,7 @@ The problem of mapping and localisation is a bit of a chicken and egg problem. I
 
 For example, for a Roboticist working with a robot navigating an unknown environment, building a **SLAM** (Simultaneous Localization and Mapping) system becomes critical for understanding the unknown environment. If I am a AR researcher trying to place a virtual object into the scene, a dense understanding of the scene and photo-realistic rendering is important. Hence, modern AR researchers are interested in [NERFs](https://www.matthewtancik.com/nerf) for mapping complex scenes and synthesizing novel views of scenes. Different domains are interested in solving these problems in different contexts, which will be discussed throughout the article. In addition to primary terms defined above -- localization and mapping -- we will using the term *estimation* when there is a broader need to address both localization and mapping together.
 
-This article is the first of the two-part series on this topic. You can read the second article here.
+This article is the first of the two-part series on this topic. You can read the second article [here]({{< ref "evolution-localisation-mapping2" >}}).
 
 ## Key Concepts
 
